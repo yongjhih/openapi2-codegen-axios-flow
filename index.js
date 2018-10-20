@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-const parse = require('./lib/parse.js');
+const parse = require('swagger-parse-flowtyped');
 const codegen = require('./lib/codegen.js');
 const fs = require('fs-extra');
 const stdin = require('get-stdin');
