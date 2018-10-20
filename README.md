@@ -4,6 +4,7 @@
 
 ```sh
 swagger-codegen-axios-flow < swagger.json > swagger.js
+swagger-codegen-axios-flow cli < swagger.json > swagger-cli.js
 ```
 
 ## Installation

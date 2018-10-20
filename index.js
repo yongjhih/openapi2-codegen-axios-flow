@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 const parse = require('swagger-parse-flowtyped');
-const codegen = require('./lib/codegen.js');
+const api = require('./lib/codegen.js');
+const cli = require('./lib/cli.js');
 const fs = require('fs-extra');
 const stdin = require('get-stdin');
 
@@ -8,10 +9,20 @@ require('yargs')
   .command('*', 'Generate', (yargs2) => {
   }, (argv) => {
       return stdin().then(str => JSON.parse(str)).then(str => {
-          console.log(codegen(parse({
+          console.log(api(parse({
               swagger: str,
               moduleName: 'swagger',
-              className: 'swagger'
+              className: 'Swagger'
+          })));
+      });
+  })
+  .command('cli', 'Generate', (yargs2) => {
+  }, (argv) => {
+      return stdin().then(str => JSON.parse(str)).then(str => {
+          console.log(cli(parse({
+              swagger: str,
+              moduleName: 'swagger',
+              className: 'Swagger'
           })));
       });
   })

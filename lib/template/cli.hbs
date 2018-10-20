@@ -1,0 +1,40 @@
+#!/usr/bin/env node
+
+const Api = require('{{&moduleName}}').default;
+const api = new Api();
+
+require('yargs')
+{{#methods}}
+  .command('{{&methodName}} {{#parameters}}{{#isQueryParameter}}{{#if required}}<{{&name}}>{{/if}}{{#unless required}}[{{&name}}]{{/unless}}{{/isQueryParameter}}{{#isPathParameter}}{{#if required}}<{{&name}}>{{/if}}{{#unless required}}[{{&name}}]{{/unless}}{{/isPathParameter}} {{/parameters}}', '', (yargs) => {
+    {{#if parameters}}
+    yargs
+    {{#parameters}}
+      {{#isQueryParameter}}
+      .positional('{{&name}}', {
+          describe: '',
+      })
+      {{/isQueryParameter}}
+      {{#isPathParameter}}
+      .positional('{{&name}}', {
+          describe: '',
+      })
+      {{/isPathParameter}}
+    {{/parameters}}
+    {{/if}}
+  }, (argv) => {
+    return api.{{&methodName}}({{#if parameters}}{{#joinComma parameters}}{{#isQueryParameter}}argv.{{&name}}{{/isQueryParameter}}{{#isPathParameter}}argv.{{&name}}{{/isPathParameter}}{{/joinComma}}{{/if}}).then(console.log, console.error);
+  })
+{{/methods}}
+  .option('verbose', {
+    alias: 'v',
+    default: false
+  })
+  .option('h', {
+    alias: 'help',
+    description: 'display help message'
+  })
+  .help('help')
+  .fail((msg, err) => {
+    console.error(msg);
+    console.error(err);
+  }).argv;
